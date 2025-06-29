@@ -20,6 +20,11 @@ public class GuiChatMixin {
     private HangulAssembler.Hangul currentHangul = new HangulAssembler.Hangul();
     private boolean composing = false;
 
+    @Inject(method = "initGui", at = @At("TAIL"))
+    public void onInitGui(CallbackInfo ci) {
+        TextOverlayListener.systemKoreanDetected = false;
+    }
+
     @Inject(method = "keyTyped", at = @At("HEAD"), cancellable = true)
     public void onKeyTyped(char typedChar, int keyCode, CallbackInfo ci) {
         boolean isSystemKorean = (typedChar >= 0xAC00 && typedChar <= 0xD7A3) || // complete korean syllables
