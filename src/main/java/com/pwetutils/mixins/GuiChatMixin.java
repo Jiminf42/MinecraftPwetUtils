@@ -22,6 +22,20 @@ public class GuiChatMixin {
 
     @Inject(method = "keyTyped", at = @At("HEAD"), cancellable = true)
     public void onKeyTyped(char typedChar, int keyCode, CallbackInfo ci) {
+        boolean isSystemKorean = (typedChar >= 0xAC00 && typedChar <= 0xD7A3) || // complete korean syllables
+                (typedChar >= 0x1100 && typedChar <= 0x11FF) || // korean jamo
+                (typedChar >= 0x3130 && typedChar <= 0x318F);   // compatibility jamo
+
+        if (isSystemKorean) {
+            TextOverlayListener.systemKoreanDetected = true;
+            if (TextOverlayListener.isKorean) {
+                ci.cancel();
+                return;
+            }
+        } else if (Character.isLetter(typedChar)) {
+            TextOverlayListener.systemKoreanDetected = false;
+        }
+
         if (!TextOverlayListener.isKorean) return;
 
         if (GuiScreen.isCtrlKeyDown() || GuiScreen.isKeyComboCtrlA(keyCode) ||
@@ -38,7 +52,7 @@ public class GuiChatMixin {
             return;
         }
 
-        if (keyCode == 14) { // Backspace
+        if (keyCode == 14) { // backspace
             if (composing && inputField.getCursorPosition() > 0) {
                 String text = inputField.getText();
                 int cursor = inputField.getCursorPosition();
