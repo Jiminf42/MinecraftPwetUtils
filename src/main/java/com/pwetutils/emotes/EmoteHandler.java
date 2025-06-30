@@ -4,6 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class EmoteHandler {
+    public static boolean isEmote(String text) {
+        return EMOTES.containsKey(text);
+    }
+
     private static final Map<String, String> EMOTES = new HashMap<>();
 
     static {
@@ -16,7 +20,6 @@ public class EmoteHandler {
         EMOTES.put(":shrug:", "¯\\_(ツ)_/¯");
         EMOTES.put(":tableflip:", "(╯°□°）╯︵ ┻━┻");
         EMOTES.put("o/", "( ﾟ◡ﾟ)/");
-        EMOTES.put(":123:", "123");
         EMOTES.put(":totem:", "☉_☉");
         EMOTES.put(":typing:", "✎...");
         EMOTES.put(":maths:", "√(π+x)=L");
