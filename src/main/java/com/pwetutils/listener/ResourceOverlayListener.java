@@ -1,5 +1,6 @@
 package com.pwetutils.listener;
 
+import com.pwetutils.settings.ModuleSettings;
 import net.weavemc.loader.api.event.RenderGameOverlayEvent;
 import net.weavemc.loader.api.event.SubscribeEvent;
 import net.minecraft.client.Minecraft;
@@ -24,6 +25,7 @@ public class ResourceOverlayListener {
 
     @SubscribeEvent
     public void onRender(RenderGameOverlayEvent.Pre event) {
+        if (!ModuleSettings.isResourceTimerEnabled()) return;
         Minecraft mc = Minecraft.getMinecraft();
 
         String diamondTier = "§8III";
